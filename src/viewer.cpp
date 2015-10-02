@@ -21,6 +21,7 @@ void msgs_cb(const std_msgs::String::ConstPtr& msg){
 
 	pcl::toROSMsg(*cloud, output);
 	output.header.frame_id="base_link";
+	output.header.stamp = ros::Time::now();
 
 	pub.publish(output);
 }
@@ -30,7 +31,7 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "viewer");
 	ros::NodeHandle n;
 	ros::Subscriber sub = n.subscribe("filename", 1000, msgs_cb);
-	pub = n.advertise<sensor_msgs::PointCloud2>("view_cloud",1);
+	pub = n.advertise<sensor_msgs::PointCloud2>("output",1);
 	ros::spin();
 	return 0;
 }
